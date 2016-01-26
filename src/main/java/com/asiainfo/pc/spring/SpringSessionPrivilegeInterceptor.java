@@ -78,9 +78,11 @@ public class SpringSessionPrivilegeInterceptor extends HandlerInterceptorAdapter
 		
 		boolean foo = privilegeEngine.isPermited(roleIds,groupIds, url.toString());
 		if(!foo&&!StringUtils.isEmpty(redirectUrl)){
-			logger.info("request for ["+url+"]is forbidden. session:"+session.getId());
+			logger.info("request for ["+url+"]is forbidden. userid:"+session.getAttribute("userid"));
 			req.getRequestDispatcher(redirectUrl).forward(req, res);
-			logger.info("redirect to ["+req.getRequestURL()+"]");
+			logger.info("redirect to ["+req.getContextPath()+redirectUrl+"]");
+		}else{
+			logger.info("request for ["+url+"] is permited. userid:"+session.getAttribute("userid"));
 		}
 		return foo;
 	}
